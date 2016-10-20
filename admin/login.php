@@ -50,7 +50,7 @@ if( is_logged() ) {
           <div class="col s12 grey lighten-4">
             <section class="section">
               <!-- LOGIN_FORM -->
-              <form class="col s12" method="post" action="core/login.php">
+              <form class="col s12" method="post">
                 <div class='row'>
                   <div class='col s12'>
                     <h4 class="center">Ingreso</h4>
@@ -77,7 +77,7 @@ if( is_logged() ) {
                 <br />
                 
                 <div class='row'>
-                  <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo'>Ingresar</button>
+                  <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo js-login'>Ingresar</button>
                 </div>
               </form>
               <!-- END LOGIN_FORM -->
@@ -106,5 +106,6 @@ if( is_logged() ) {
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
   <script type="text/javascript" src="js/init.js"></script>
+  <script type="text/javascript" src="js/login.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 <?php
 
-include('utils.php');
+include('core/utils.php');
 
 if( !is_logged() ) {
   header("Location: login.php");

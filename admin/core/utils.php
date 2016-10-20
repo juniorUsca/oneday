@@ -20,7 +20,7 @@ function leerParam($param, $default) {
 }
   
 function conectar() {
-  include('../private.php');
+  include('admin/private.php');
   $xc = mysqli_connect($hostname, $username, $password);
   mysqli_select_db($xc, $dbname);
   return $xc;

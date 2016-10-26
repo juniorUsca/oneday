@@ -18,6 +18,23 @@ function leerParam($param, $default) {
     return $_GET["$param"];
   return $default;
 }
+
+function leerSession($param, $default = '') {
+  start_session();
+  if ( isset( $_SESSION["$param"] ) )
+    return $_SESSION["$param"];
+  return $default;
+}
+
+function popSession($param, $default = '') {
+  start_session();
+  if ( isset( $_SESSION["$param"] ) ) {
+    $temp = $_SESSION["$param"];
+    unset( $_SESSION["$param"] );
+    return $temp;
+  }
+  return $default;
+}
   
 function conectar() {
   global $HOSTPATH, $hostname, $dbusername, $dbpassword, $dbname;
@@ -67,7 +84,7 @@ function get_url_end($string) {
 function get_url_body($string) {
   $path_slashs = PATH.'/';
   $pos = strpos($string, $path_slashs);
-  $pos_end = pos_parameters_get($string); /// -1 por el '?' y -1 por el ultimo '/' de la url
+  $pos_end = pos_parameters_get($string);
   //echo $pos_end-($pos + strlen($path_slashs));
   if ($pos_end === false) $pos_end = strlen($string);
 

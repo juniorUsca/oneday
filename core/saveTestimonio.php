@@ -7,15 +7,14 @@ $response['status'] = '1';
 $response['status_img'] = '1';
 $response['error_img'] = '';
 
-$PAGE = $_POST['data-page-form'];
-unset ($_POST['data-page-form']);
+$form_values = array();
 
 $validextensions = array("jpeg", "jpg", "png");
 $route = "/upload/pages/";
 $drc_route = "../upload/pages/"; /// ruta directa
 $max_file_size = 1000000;
 
-/// Subimos las imagenes y las guardamos en la base de datos
+/// Subimos las imagenes
 foreach ($_FILES as $key => $value) {
   if(isset($value["type"])) {
     $temporary = explode(".", $value["name"]);
@@ -39,18 +38,54 @@ foreach ($_FILES as $key => $value) {
         $targetPath = $drc_route.$value['name']; // Target path where file is to be stored
         move_uploaded_file($sourcePath,$targetPath) ; // Moving Uploaded file
         
-        /// Guardamos en la base de datos
-        if ( !putData($key, $PAGE, $route.$value['name']) )
-          $response['status'] = '0';
+        $form_values [$key] = $route.$value['name'];
       }
     }
   }
 }
 
-/// Subimos las imagenes y las guardamos en la base de datos
-foreach ($_POST as $key => $value) {
-  if ( !putData($key, $PAGE, $value) )
-    $response['status'] = '0';
+/// guardamos en la base de datos
+foreach ($_POST as $key => $value)
+  $form_values [$key] = $value;
+
+$ID = $form_values['data-id'];
+unset ($form_values['data-id']);
+
+if ($ID == '0') {
+
+  $keys = ""; $values = "";
+  $i = 0;
+  $len = count($form_values);
+  foreach ($form_values as $key => $value) {
+    if ($i != $len - 1){
+      $keys .= "`$key`, ";
+      $values .= "'".utf8_decode($value)."', ";
+    } else {
+      $keys .= "`$key`";
+      $values .= "'".utf8_decode($value)."'";
+    }
+    $i++;
+  }
+  $sql = "INSERT INTO testimonios ( $keys ) VALUES( $values )";
+} else {
+  //$sql = "UPDATE content SET `data-content` = '".utf8_decode($data_content)."' WHERE page='$page' AND `data-name`='$data_name'";
+}
+
+
+$con = conectar();
+$res = mysqli_query($con, $sql);
+desconectar($con);
+
+if(!$res)
+  $response['status'] = '0';
+
+start_session();
+if ($response['status'] == '1') {
+  $_SESSION['message'] = 'Testimonio guardado';
+  $_SESSION['color'] = 'teal';
+} else {
+  $_SESSION['message'] = 'Ocurrio un problema';
+  $_SESSION['color'] = 'red';
 }
 
 header('Content-type: application/json');

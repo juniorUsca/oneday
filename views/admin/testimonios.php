@@ -81,6 +81,8 @@ if( !is_logged() ) {
 
     saveForm();
 
+    readMessages();
+
   }); // end of document ready
 })(jQuery); // end of jQuery name space
 
@@ -168,6 +170,14 @@ function saveForm() {
     
     return false;
   });
+}
+
+function readMessages() {
+  var message = '<?php echo popSession('message');?>';
+  var color = '<?php echo popSession('color');?>';
+  if (message != '') {
+    Materialize.toast(message, 3000, color);
+  }
 }
 
   </script>

@@ -1,6 +1,6 @@
 <?php
-define('HOSTNAME', 'http://localhost:81');
-define('PATH', 'oneday');
+define('HOSTNAME', 'http://localhost');
+define('PATH', '');
 define('VIEWS_PATH', 'views');
 $HOSTPATH = HOSTNAME.'/'.PATH;
 if (empty(PATH))
@@ -11,7 +11,7 @@ include('info.php');
 include('core/utils.php');
 
 $pages = array(
-  'index.php' => 'index/index.php',
+  '/index.php' => 'index/index.php',
   'admin/index.php' => 'admin/index.php',
   'admin/login.php' => 'admin/login.php',
   'admin/inicio/index.php' => 'admin/inicio.php',
@@ -25,6 +25,7 @@ $current_url = $_SERVER['REQUEST_URI'];
 $current_view = ''; /// TODO: 404 por defecto
 $current_path = PATH;
 
+//echo $current_url."<br>";
 
 /// agregamos el index.php si no lo tubiera. EJM: oneday.com/admin
 if ( !has_dot( get_url_body($current_url) ) )
@@ -33,6 +34,10 @@ if ( !has_dot( get_url_body($current_url) ) )
 /// agregamos el index.php si no lo tubiera. EJM: oneday.com/admin/
 if ( substr( get_url_body($current_url), -1) == '/' )
   $current_page = get_url_body($current_url).'index.php';
+
+if ( empty($current_page) )
+  $current_page = get_url_body($current_url);
+//echo $current_page;
 
 $page_found = false;
 foreach ($pages as $key => $value) {

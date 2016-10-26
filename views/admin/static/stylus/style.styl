@@ -91,6 +91,13 @@ nav
   box-shadow: none;
 }
 
+textarea.materialize-textarea:focus:not([readonly])
+  border-bottom 1px solid #e91e63
+  box-shadow 0 1px 0 0 #e91e63
+
+textarea.materialize-textarea:focus:not([readonly])+label
+  color #e91e63
+
 .btn
   background-color #2196F3
   &:hover

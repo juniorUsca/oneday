@@ -2,5 +2,5 @@
 
 $hostname   = 'localhost';
 $dbusername = 'root';
-$dbpassword = 'root';
-$dbname     = 'dboneday';
+$dbpassword = '';
+$dbname     = 'oneday';

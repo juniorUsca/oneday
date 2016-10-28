@@ -11,7 +11,7 @@ function is_logged() {
   else return true;
 }
 
-function leerParam($param, $default) {
+function leerParam($param, $default = '') {
   if ( isset( $_POST["$param"] ) )
     return $_POST["$param"];
   if ( isset( $_GET["$param"] ) )
@@ -67,6 +67,56 @@ function putData($data_name, $page, $data_content) {
   $res = mysqli_query($con, $sql);
   desconectar($con);
   return $res;
+}
+
+function getDataTable ($table) {
+
+  $public_tables = array('testimonios',);
+
+  $access = false;
+  foreach ($public_tables as $key => $value) {
+    if ($value == $table) {
+      $access = true;
+      break;
+    }
+  }
+  
+  $rows = array();
+  if ($access) {
+    $sql = "SELECT * FROM `$table` ORDER BY id DESC";
+    $con = conectar();
+    $res = mysqli_query($con, $sql);
+    desconectar($con);
+    
+    while($r = mysqli_fetch_assoc($res)) {
+      $row = array();
+      foreach ($r as $key => $value) {
+        $value = utf8_encode($value);
+        $row [$key] = $value;
+      }
+      $response['status'] = '1';
+      $rows[] = $row;
+    }
+  }
+
+  return $rows;
+
+}
+
+function getDataRow($id, $table) {
+  $sql = "SELECT * FROM `$table` WHERE id='$id'";
+  $con = conectar();
+  $res = mysqli_query($con, $sql);
+  desconectar($con);
+  
+  $row = array();
+  while($r = mysqli_fetch_assoc($res)) {
+    foreach ($r as $key => $value) {
+      $value = utf8_encode($value);
+      $row [$key] = $value;
+    }
+  }
+  return $row;
 }
 
 /**

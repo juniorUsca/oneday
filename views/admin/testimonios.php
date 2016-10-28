@@ -3,6 +3,8 @@ if( !is_logged() ) {
   header("Location: ".$HOSTPATH."/admin/login.php");
   die();
 }
+
+$rows = getDataTable ('testimonios');
 ?>
 
 <!DOCTYPE html>
@@ -37,25 +39,32 @@ if( !is_logged() ) {
                   <th data-field="testimonio">Testimonio</th>
                   <th data-field="autor">Autor</th>
                   <th data-field="imagen">Imagen</th>
+                  <th data-field="descripcion-imagen">Descripcion de Imagen</th>
                   <th >Opciones</th>
               </tr>
             </thead>
-
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa dicta sapiente, quo in minus nostrum praesentium quidem, corporis sed a vel quisquam ullam incidunt deserunt numquam, officia voluptas eligendi est!</td>
-                <td>Junior Usca</td>
-                <td>
-                  <figure class="no-margin height-100">
-                    <img src="<?php echo $static;?>/imgs/logo2.png" class="prev-img-table">
-                  </figure>
-                </td>
-                <td>
-                  <i class="material-icons">edit</i>
-                  <i class="material-icons">delete</i>
-                </td>
-              </tr>
+            <tbody class="js-content-table">
+              <?php foreach ($rows as $keyrow => $row): ?>
+                <tr>
+                  <td><?php echo $keyrow + 1;?></td>
+                  <td><?php echo $row['data-message'];?></td>
+                  <td><?php echo $row['data-author'];?></td>
+                  <td>
+                    <figure class="no-margin height-100">
+                      <img src="<?php echo $HOSTPATH.$row['data-image'];?>" class="prev-img-table">
+                    </figure>
+                  </td>
+                  <td><?php echo $row['data-image-alt'];?></td>
+                  <td>
+                    <a href="<?php echo $HOSTPATH.'/admin/testimonios/edit/?id='.$row['id'];?>" class="option-edit">
+                      <i class="material-icons">edit</i>
+                    </a>
+                    <a href="<?php echo $HOSTPATH.'/core/delTestimonio.php?id='.$row['id'];?>" class="option-delete">
+                      <i class="material-icons">delete</i>
+                    </a>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
             </tbody>
           </table>
 
@@ -75,110 +84,12 @@ if( !is_logged() ) {
 (function($){
   $(function(){
 
+    logout('<?php echo $HOSTPATH;?>/core/logout.php', '<?php echo $HOSTPATH;?>/admin/index.php');
+    readMessages('<?php echo popSession('message');?>', '<?php echo popSession('color');?>');
     $('.preloader-background').fadeOut('slow');
-    logout();
-    chargeImage();
-
-    saveForm();
-
-    readMessages();
 
   }); // end of document ready
 })(jQuery); // end of jQuery name space
-
-function logout() {
-  $('.js-logout').click( function () {
-    $('.preloader-background').fadeIn('slow');
-    $.ajax({
-      url:  '<?php echo $HOSTPATH;?>/core/logout.php',
-      type: 'POST',
-      dataType: 'json'
-    })
-    .done(function(resp) {
-      window.location.replace('<?php echo $HOSTPATH;?>/admin/index.php');
-    })
-    .fail(function(fail) {
-      console.log('error',fail);
-    })
-    .always(function() {
-      $('.preloader-background').fadeOut('slow');
-    })
-    ;
-    
-    return false;
-  });
-}
-
-function chargeImage() {
-  $("input[type='file']").change(function(event) {
-    var file = this.files[0];
-    var imagefile = file.type;
-    var match= ["image/jpeg","image/png","image/jpg"];
-    if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2])))
-    {
-      //$('#previewing').attr('src','noimage.png');
-      //$("#message").html("<p id='error'>Please Select A valid Image File</p>"+"<h4>Note</h4>"+"<span id='error_message'>Only jpeg, jpg and png Images type allowed</span>");
-      /// FORMATO NO ACEPTADO
-      return false;
-    }
-    else {
-      window.current_img = $(this).prev(".prev-img");
-      var reader = new FileReader();
-      reader.onload = imageIsLoaded;
-      reader.readAsDataURL(this.files[0]);
-    }
-  });
-}
-
-function imageIsLoaded(e) {
-  //$('#image_preview').css("display", "block");
-  window.current_img.attr('src', e.target.result);
-  //$('#previewing').attr('width', '250px');
-  //$('#previewing').attr('height', '230px');
-};
-
-function saveForm() {
-  $('#content-form').submit( function () {
-    $('.preloader-background').fadeIn('slow');
-    $.ajax({
-      url: '<?php echo $HOSTPATH;?>/core/savePageContent.php',
-      type: 'POST',
-      data: new FormData(this),
-      contentType: false,
-      cache: false,
-      processData: false
-    })
-    .done(function(resp) {
-      
-      if ( resp['status'] == '1' && resp['status_img'] == '1' ){
-        //meesage ok
-        Materialize.toast('Datos guardados', 3000, 'teal') 
-      }
-      else {
-        //message bad
-        console.log(resp);
-        Materialize.toast('Ocurrio un problema', 3000, 'red') 
-      }
-    })
-    .fail(function(fail) {
-      Materialize.toast('Ocurrio un problema', 3000, 'red') 
-      console.log('error',fail);
-    })
-    .always(function() {
-      $('.preloader-background').fadeOut('slow');
-    });
-    
-    return false;
-  });
-}
-
-function readMessages() {
-  var message = '<?php echo popSession('message');?>';
-  var color = '<?php echo popSession('color');?>';
-  if (message != '') {
-    Materialize.toast(message, 3000, color);
-  }
-}
 
   </script>
 </body>

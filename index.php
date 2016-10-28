@@ -1,6 +1,6 @@
 <?php
-define('HOSTNAME', 'http://localhost');
-define('PATH', '');
+define('HOSTNAME', 'http://localhost:81');
+define('PATH', 'oneday');
 define('VIEWS_PATH', 'views');
 $HOSTPATH = HOSTNAME.'/'.PATH;
 if (empty(PATH))

@@ -433,20 +433,27 @@
 }
 </style>
 
-  <div class="carousel carousel-slider center" data-indicators="true">
-    
-    <div class="carousel-item parallax-container white-text" href="#one!">
+
+<?php $testimonios = getDataTable ('testimonios');?>
+  <div class="carousel purple darken-2 carousel-slider center" data-indicators="true">
+    <?php foreach ($testimonios as $keyrow => $row): ?>
+
+    <div class="carousel-item parallax-container white-text">
       <div class="section no-pad-bot">
         <div class="container">
           <div class="row center">
-            <h2 class="header col s12 light">“El contenido de los cursos de NexU son muy completos y prácticos, no te llenan la cabeza con demasiados conceptos teóricos, que es como realmente se aprende la programación”</h2>
-            <p class="white-text">– Alex Torres</p>
+            <h2 class="header col s12 light"><?php echo $row['data-message'];?></h2>
+            <p class="white-text"><?php echo $row['data-author'];?></p>
           </div>
         </div>
       </div>
-      <div class="parallax image"><img src="<?php echo $static;?>/imgs/background 3.png" alt="Unsplashed background img 3"></div>
+      <div class="parallax image">
+        <img src="<?php echo $HOSTPATH.$row['data-image'];?>" alt="<?php echo $row['data-image-alt'];?>">
+      </div>
     </div>
-    <div class="carousel-item amber white-text" href="#two!">
+
+    <?php endforeach; ?>
+    <!--<div class="carousel-item amber white-text" href="#two!">
       <h2>“El contenido de los cursos de NexU son muy completos y prácticos, no te llenan la cabeza con demasiados conceptos teóricos, que es como realmente se aprende la programación”</h2>
       <p class="white-text">– Alex Torres</p>
     </div>
@@ -457,7 +464,7 @@
     <div class="carousel-item blue white-text" href="#four!">
       <h2>“El contenido de los cursos de NexU son muy completos y prácticos, no te llenan la cabeza con demasiados conceptos teóricos, que es como realmente se aprende la programación”</h2>
       <p class="white-text">– Alex Torres</p>
-    </div>
+    </div>-->
   </div>
 
 

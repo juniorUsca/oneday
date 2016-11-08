@@ -1,5 +1,4 @@
 <?php
-
 if( is_logged() ) {
   header("Location: ".$HOSTPATH."/admin/index.php");
   die();
@@ -15,9 +14,11 @@ if( is_logged() ) {
   <meta name="description" content="menor a 160 caracteres" />
   <meta name="keywords" content="menor a 300 caracteres" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <link rel="icon" href="<?php echo $company_developer_isotipo;?>" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection" />
-  <link rel="stylesheet" type="text/css" href="<?php echo $static;?>/css/style.css">
+  <link rel="stylesheet" type="text/css" href="<?php echo $static;?>/css/style.css" />
 </head>
 <body id="sticky-footer">
   <!-- PRELOADER -->

@@ -63,15 +63,20 @@ function getData($data_name, $page, $default='') {
 
 function putData($data_name, $page, $data_content) {
   $con = conectar();
-  $sql = "UPDATE content SET `data-content` = '".utf8_decode($data_content)."' WHERE page='$page' AND `data-name`='$data_name'";
+  $value = utf8_decode($data_content);
+  $value = str_replace("'", "\\'", $value);
+  $value = str_replace("\"", "\\\"", $value);
+  //$value = str_replace("\\", "\\\\", $value);
+  $sql = "UPDATE content SET `data-content` = '".$value."' WHERE page='$page' AND `data-name`='$data_name'";
+  //echo $sql;
   $res = mysqli_query($con, $sql);
   desconectar($con);
   return $res;
 }
 
-function getDataTable ($table) {
+function getDataTable ($table, $order = 'id', $desc = 'DESC', $where = '') {
 
-  $public_tables = array('testimonios',);
+  $public_tables = array('testimonios','aliados','cursos','galeria','subscripciones',);
 
   $access = false;
   foreach ($public_tables as $key => $value) {
@@ -83,7 +88,10 @@ function getDataTable ($table) {
   
   $rows = array();
   if ($access) {
-    $sql = "SELECT * FROM `$table` ORDER BY id DESC";
+    if (empty($where))
+      $sql = "SELECT * FROM `$table` ORDER BY `$order` $desc";
+    else
+      $sql = "SELECT * FROM `$table` WHERE $where ORDER BY `$order` $desc";
     $con = conectar();
     $res = mysqli_query($con, $sql);
     desconectar($con);

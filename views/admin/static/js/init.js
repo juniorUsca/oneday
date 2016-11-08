@@ -16,12 +16,20 @@
 
     $('.button-collapse').sideNav();
     $(".dropdown-button").dropdown();
+    $(".btn.dropdown").dropdown();
     Materialize.updateTextFields();
     $('textarea').trigger('autoresize');
+    $('.datepicker').pickadate({
+      format: 'yyyy-mm-dd',
+      selectMonths: true, // Creates a dropdown to control month
+      selectYears: 15 // Creates a dropdown of 15 years to control year
+    });
 
     chargeImage();
-
     optionDelete();
+
+    if ( $.isFunction($.fn.materialnote) )
+      materialnote();
 
   }); // end of document ready
 })(jQuery); // end of jQuery name space
@@ -116,13 +124,24 @@ function readMessages(message, color) {
 }
 
 /// FORMS
-function saveForm(urlPost, urlRedirect) {
+function saveForm(urlPost, urlRedirect, extra = {}, val_html = "val") {
   $('#content-form').submit( function () {
     $('.preloader-background').fadeIn('slow');
+    var data = new FormData(this);
+    if (val_html == "html") {
+      $.each(extra, function(index, val) {
+        data.append ( index, val.html() );
+      });
+    } else {
+      $.each(extra, function(index, val) {
+        data.append ( index, val.val() );
+      });
+    }
+    
     $.ajax({
       url: urlPost,
       type: 'POST',
-      data: new FormData(this),
+      data: data,
       contentType: false,
       cache: false,
       processData: false
@@ -148,5 +167,45 @@ function saveForm(urlPost, urlRedirect) {
     });
     
     return false;
+  });
+}
+
+
+
+
+function materialnote() {
+  var toolbar = [
+    ['style', ['style', 'bold', 'italic', 'underline', 'strikethrough', 'clear']],
+    ['fonts', ['fontsize', 'fontname']],
+    ['color', ['color']],
+    //['undo', ['undo', 'redo', 'help']],
+    ['undo', ['undo', 'redo']],
+    ['ckMedia', ['ckImageUploader', 'ckVideoEmbeeder']],
+    //['misc', ['link', 'picture', 'table', 'hr', 'codeview', 'fullscreen']],
+    ['misc', ['link', 'table', 'codeview', 'fullscreen']],
+    ['para', ['ul', 'ol', 'paragraph', 'leftButton', 'centerButton', 'rightButton', 'justifyButton', 'outdentButton', 'indentButton']],
+    ['height', ['lineheight']],
+  ];
+
+  $('.editor').materialnote({
+    toolbar: toolbar,
+    height: 550,
+    minHeight: 100,
+    defaultBackColor: '#e0e0e0',
+    onsubmit: function() {
+      return false;
+    }
+  });
+  
+  //airmode editor
+  $('.editorAir').materialnote({
+    airMode: true,
+    airPopover: [
+      ['color', ['color']],
+      ['font', ['bold', 'underline', 'clear']],
+      ['para', ['ul', 'paragraph']],
+      ['table', ['table']],
+      ['insert', ['link', 'picture']]
+    ]
   });
 }

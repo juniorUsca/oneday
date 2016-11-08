@@ -12,13 +12,32 @@ include('core/utils.php');
 
 $pages = array(
   '/index.php' => 'index/index.php',
+  'inicio/index.php' => 'index/index.php',
+  'oratoria/index.php' => 'index/oratoria.php',
+  'coaching/index.php' => 'index/coaching.php',
+  'otroscursos/index.php' => 'index/otroscursos.php',
+  'nuestrosalumnos/index.php' => 'index/nuestrosalumnos.php',
+  
   'admin/index.php' => 'admin/index.php',
   'admin/login.php' => 'admin/login.php',
   'admin/inicio/index.php' => 'admin/inicio.php',
+  'admin/oratoria/index.php' => 'admin/oratoria.php',
+  'admin/coaching/index.php' => 'admin/coaching.php',
+  'admin/mascursos/index.php' => 'admin/otroscursos.php',
+  'admin/otroscursos/index.php' => 'admin/otroscursos.php',
+  'admin/nuestrosalumnos/index.php' => 'admin/nuestrosalumnos.php',
+  
   'admin/testimonios/index.php' => 'admin/testimonios.php',
   'admin/testimonios/edit/index.php' => 'admin/testimonios_edit.php',
   'admin/aliados/index.php' => 'admin/aliados.php',
-  'admin/datosgenerales.php' => 'admin/datosgenerales.php',
+  'admin/aliados/edit/index.php' => 'admin/aliados_edit.php',
+  'admin/cursos/index.php' => 'admin/cursos.php',
+  'admin/cursos/edit/index.php' => 'admin/cursos_edit.php',
+  'admin/galeria/index.php' => 'admin/galeria.php',
+  'admin/galeria/edit/index.php' => 'admin/galeria_edit.php',
+
+  'admin/datosgenerales/index.php' => 'admin/datosgenerales.php',
+  'admin/subscripciones/index.php' => 'admin/subscripciones.php',
 );
 
 $current_url = $_SERVER['REQUEST_URI'];

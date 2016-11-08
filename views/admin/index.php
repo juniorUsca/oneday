@@ -3,6 +3,9 @@ if( !is_logged() ) {
   header("Location: ".$HOSTPATH."/admin/login.php");
   die();
 }
+
+$rows = getDataTable ('subscripciones', 'data-date', 'ASC', '`data-active`=1');
+
 ?>
 
 
@@ -14,115 +17,120 @@ if( !is_logged() ) {
   <meta name="description" content="menor a 160 caracteres" />
   <meta name="keywords" content="menor a 300 caracteres" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="<?php echo $company_developer_isotipo;?>" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection" />
   <link rel="stylesheet" type="text/css" href="<?php echo $static;?>/css/style.css">
 </head>
-<body>
+<body id="sticky-footer">
 
   <?php include('header.php');?>
 
-  <div class="section no-pad-bot" id="index-banner">
+  <main id="sticky-footer">
     <div class="container">
-      <br><br>
-      <h1 class="header center orange-text">Starter Template</h1>
-      <div class="row center">
-        <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-      </div>
-      <div class="row center">
-        <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a>
-      </div>
-      <br><br>
+      
+      <!-- SUBSCRITOS SECTION -->
+      <section class="section row">
+        <div class="col s12 m12">
+          
+          <h4>Subscritos Recientemente</h4>
 
-    </div>
-  </div>
+          <table class="striped highlight responsive-table">
+            <thead>
+              <tr>
+                  <th data-field="id">Id</th>
+                  <th data-field="names">Nombres</th>
+                  <th data-field="lastname">Apellidos</th>
+                  <th data-field="email">Email</th>
+                  <th data-field="whatsapp">WhatsApp</th>
+                  <th data-field="years">Edad</th>
+                  <th data-field="date">Fecha de Subscripcion</th>
+                  <th >Opciones</th>
+              </tr>
+            </thead>
+            <tbody class="js-content-table">
+              <?php foreach ($rows as $keyrow => $row): ?>
+                <tr>
+                  <td><?php echo $keyrow + 1;?></td>
+                  <td><?php echo $row['data-name'];?></td>
+                  <td><?php echo $row['data-lastname'];?></td>
+                  <td><?php echo $row['data-email'];?></td>
+                  <td><?php echo $row['data-whatsapp'];?></td>
+                  <td><?php echo $row['data-years'];?></td>
+                  <td><?php echo $row['data-date'];?></td>
+                  <td>
+                    <p>
+                      <input type="checkbox" id="<?php echo "check".($keyrow + 1);?>" value="<?php echo $row['id'];?>" />
+                      <label for="<?php echo "check".($keyrow + 1);?>"></label>
+                    </p>
+                    
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
 
-
-  <div class="container">
-    <div class="section">
-
-      <!--   Icon Section   -->
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">flash_on</i></h2>
-            <h5 class="center">Speeds up development</h5>
-
-            <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
-          </div>
         </div>
+      </section> <!-- END SUBSCRITOS SECTION -->
 
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
-            <h5 class="center">User Experience Focused</h5>
-
-            <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">settings</i></h2>
-            <h5 class="center">Easy to work with</h5>
-
-            <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
-          </div>
-        </div>
+      <div class="fixed-action-btn save-button">
+        <button id="archiveSubscriptions" class="btn-floating btn-large waves-effect waves-light pink"><i class="material-icons">archive</i></button>
       </div>
 
     </div>
-    <br><br>
+  </main>
 
-    <div class="section">
+  <?php include('footer.php');?>
 
-    </div>
-  </div>
-
-  <!-- FOOTER -->
-  <footer class="page-footer blue no-padding">
-    <div class="footer-copyright">
-      <div class="container white-text">
-        Hecho por <a class="white-text" href="<?php echo $company_developer_page;?>">Debug</a>
-      </div>
-    </div>
-  </footer> <!-- END FOOTER -->
-
-
-  <!-- SCRIPTS -->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
-  <script type="text/javascript" src="<?php echo $static;?>/js/init.js"></script>
   <script type="text/javascript">
 (function($){
   $(function(){
 
-    logout();
+    logout('<?php echo $HOSTPATH;?>/core/logout.php', '<?php echo $HOSTPATH;?>/admin/');
+    readMessages('<?php echo popSession('message');?>', '<?php echo popSession('color');?>');
     $('.preloader-background').fadeOut('slow');
+
+    archiveSubscriptions('<?php echo $HOSTPATH?>/core/archiveSubscriptions.php', '<?php echo $HOSTPATH;?>/admin/');
 
   }); // end of document ready
 })(jQuery); // end of jQuery name space
 
-function logout() {
-  $('.js-logout').click( function () {
+function archiveSubscriptions(urlPost, urlRedirect){
+  $('#archiveSubscriptions').click(function(){
     $('.preloader-background').fadeIn('slow');
+
+    var val = [];
+    $(':checkbox:checked').each(function(i){
+      val[i] = $(this).val();
+    });
+
     $.ajax({
-      url:  '<?php echo $HOSTPATH;?>/core/logout.php',
+      url: urlPost,
       type: 'POST',
-      dataType: 'json'
+      data: {keys: val}
     })
     .done(function(resp) {
-      window.location.replace('<?php echo $HOSTPATH;?>/admin/index.php');
+      
+      if ( resp['status'] == '1' ){
+        //meesage ok
+        window.location.replace(urlRedirect);
+      }
+      else {
+        //message bad
+        console.log(resp);
+        window.location.replace(urlRedirect);
+      }
     })
     .fail(function(fail) {
       console.log('error',fail);
+      window.location.replace(urlRedirect);
     })
     .always(function() {
       $('.preloader-background').fadeOut('slow');
-    })
-    ;
+    });
     
     return false;
+
   });
 }
 

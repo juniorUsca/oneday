@@ -80,7 +80,7 @@ if ($ID == '0') {
     }
     $i++;
   }
-  $sql = "INSERT INTO testimonios ( $keys ) VALUES( $values )";
+  $sql = "INSERT INTO cursos ( $keys ) VALUES( $values )";
 
 } else {
 
@@ -98,7 +98,7 @@ if ($ID == '0') {
     }
     $i++;
   }
-  $sql = "UPDATE testimonios SET $keyvals WHERE id='$ID'";
+  $sql = "UPDATE cursos SET $keyvals WHERE id='$ID'";
 
 }
 
@@ -113,7 +113,7 @@ if( empty($res) )
 
 start_session();
 if ($response['status'] == '1' && $response['status_img'] == '1') {
-  $_SESSION['message'] = 'Testimonio guardado';
+  $_SESSION['message'] = 'Curso guardado';
   $_SESSION['color'] = 'teal';
 } else {
   $_SESSION['message'] = 'Ocurrio un problema';

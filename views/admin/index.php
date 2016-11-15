@@ -23,7 +23,7 @@ $rows = getDataTable ('subscripciones', 'data-date', 'ASC', '`data-active`=1');
   <link rel="stylesheet" type="text/css" href="<?php echo $static;?>/css/style.css">
 </head>
 <body id="sticky-footer">
-
+  <?php $CURRENT_TAB = 'dashboard';?>
   <?php include('header.php');?>
 
   <main id="sticky-footer">

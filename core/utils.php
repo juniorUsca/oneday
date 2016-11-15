@@ -76,7 +76,7 @@ function putData($data_name, $page, $data_content) {
 
 function getDataTable ($table, $order = 'id', $desc = 'DESC', $where = '') {
 
-  $public_tables = array('testimonios','aliados','cursos','galeria','subscripciones',);
+  $public_tables = array('testimonios','aliados','cursos','galeria','subscripciones','users',);
 
   $access = false;
   foreach ($public_tables as $key => $value) {

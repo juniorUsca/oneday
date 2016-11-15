@@ -20,7 +20,7 @@ $rows = getDataTable ('testimonios');
   <link rel="stylesheet" type="text/css" href="<?php echo $static;?>/css/style.css">
 </head>
 <body id="sticky-footer">
-
+  <?php $CURRENT_TAB = 'testimonios';?>
   <?php include('header.php');?>
 
   <main id="sticky-footer">

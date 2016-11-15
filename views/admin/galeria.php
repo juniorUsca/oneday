@@ -20,7 +20,7 @@ $rows = getDataTable ('galeria', 'data-date', 'ASC');
   <link rel="stylesheet" type="text/css" href="<?php echo $static;?>/css/style.css">
 </head>
 <body id="sticky-footer">
-
+  <?php $CURRENT_TAB = 'galeria';?>
   <?php include('header.php');?>
 
   <main id="sticky-footer">

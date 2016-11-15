@@ -1,6 +1,6 @@
 <nav class="white">
   <div class="nav-wrapper container">
-    <a id="logo-container" href="#" class="brand-logo">
+    <a id="logo-container" href="<?php echo $HOSTPATH;?>" class="brand-logo">
       <img src="<?php echo $HOSTPATH.getData('data-logo-image','general');?>" alt="<?php echo getData('data-logo-image-alt','general');?>" />
     </a>
     <div class="right black-text valign-wrapper hide-on-small-only" style="font-size: 18px;">
@@ -51,10 +51,10 @@
 
 <style>
 #slide-lead-modal {
-  width: 300px;
+  width: 260px;
   min-height: 200px;
   position: fixed;
-  right: -300px;
+  right: -260px;
   bottom: 0;
   background: 0 0;
   z-index: 900;
@@ -101,7 +101,7 @@
   -ms-transition: 1s;
   -o-transition: 1s;
   transition: 1s;
-  right: -300px !important;
+  right: -260px !important;
   box-shadow: 0;
 }
 
@@ -109,6 +109,21 @@
   background: white;
   padding: 20px;
 }
+
+#nav-mobile li.active {
+  background-color: <?php echo getData('data-tab-color',$CURRENT_TAB);?>;
+}
+
+@media only screen and (min-width : 600px) {
+  #slide-lead-modal {
+    width: 300px;
+    right: -300px;
+  }
+  #slide-lead-modal.close {
+    right: -300px !important;
+  }
+}
+
 </style>
 <div id="slide-lead-modal" class="close">
   <div id="slider-button" name="slider-button" class="purple darken-1" style="display: block;">¡Comienza Ahora!</div>

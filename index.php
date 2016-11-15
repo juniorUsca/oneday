@@ -35,6 +35,8 @@ $pages = array(
   'admin/cursos/edit/index.php' => 'admin/cursos_edit.php',
   'admin/galeria/index.php' => 'admin/galeria.php',
   'admin/galeria/edit/index.php' => 'admin/galeria_edit.php',
+  'admin/admins/index.php' => 'admin/admins.php',
+  'admin/admins/edit/index.php' => 'admin/admins_edit.php',
 
   'admin/datosgenerales/index.php' => 'admin/datosgenerales.php',
   'admin/subscripciones/index.php' => 'admin/subscripciones.php',
@@ -64,6 +66,8 @@ foreach ($pages as $key => $value) {
     $page_found = true;
     $current_view = VIEWS_PATH.'/'.$value;
     $current_path = HOSTNAME.'/'.get_current_path(PATH.'/'.$current_view);
+    if (empty(PATH))
+      $current_path = HOSTNAME.'/'.get_current_path($current_view);
     $static = $current_path.'static';
     include($current_view);
   }
